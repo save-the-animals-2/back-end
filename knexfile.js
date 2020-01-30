@@ -9,7 +9,7 @@ module.exports = {
       directory: './data/seeds',
     },
     connection: {
-      filename: './data/auth.db3',
+      filename: './data/campaigns.db3',
     },
   },
   test: {
