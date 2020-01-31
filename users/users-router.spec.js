@@ -1,5 +1,10 @@
 const supertest = require('supertest');
 const server = require('../index');
+const db = require('../data/config');
+
+beforeEach(async () => {
+  await db.seed.run();
+});
 
 test('GET / - get users', async () => {
   // get users
@@ -16,7 +21,7 @@ test('GET / - get users', async () => {
 });
 
 test('GET /:id - get user by id', async () => {
-  // get users
+  // get user
   const res = await supertest(server).get('/api/users/1');
 
   // does it return the expected status code?
