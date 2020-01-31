@@ -5,9 +5,11 @@ function get(id) {
   let query = db('users');
 
   if (id) {
-    return query.where({ id }).first('id', 'username', 'email', 'user_type');
+    return query
+      .where({ id })
+      .first('id', 'username', 'email', 'user_type', 'org_id');
   } else {
-    return query.select('id', 'username', 'email', 'user_type');
+    return query.select('id', 'username', 'email', 'user_type', 'org_id');
   }
 }
 

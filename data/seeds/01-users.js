@@ -13,18 +13,21 @@ exports.seed = async function(knex) {
       email: 'carol@fauna-flora.org',
       password: `${await hash('123abc')}`,
       user_type: 'organization',
+      org_id: 1,
     },
     {
       username: 'olivia',
       email: 'olivia@fauna-flora.org',
       password: `${await hash('123abc')}`,
       user_type: 'organization',
+      org_id: 1,
     },
     {
       username: 'brienne',
       email: 'brienne@aws.org.au',
       password: `${await hash('123abc')}`,
       user_type: 'organization',
+      org_id: 2,
     },
     {
       username: 'eric',
@@ -37,18 +40,21 @@ exports.seed = async function(knex) {
       email: 'rachel@awf.org',
       password: `${await hash('123abc')}`,
       user_type: 'organization',
+      org_id: 3,
     },
     {
       username: 'tessa',
       email: 'tessa@awf.org',
       password: `${await hash('123abc')}`,
       user_type: 'organization',
+      org_id: 3,
     },
     {
       username: 'edgar',
       email: 'edgar@awf.org',
       password: `${await hash('123abc')}`,
       user_type: 'organization',
+      org_id: 3,
     },
     {
       username: 'neil',
@@ -61,6 +67,7 @@ exports.seed = async function(knex) {
       email: 'david@wildlifejustice.org',
       password: `${await hash('123abc')}`,
       user_type: 'organization',
+      org_id: 4,
     },
   ]);
 };
