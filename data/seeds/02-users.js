@@ -64,7 +64,7 @@ exports.seed = async function(knex) {
     },
     {
       username: 'david',
-      email: 'david@wildlifejustice.org',
+      email: 'david@panthera.org',
       password: `${await hash('123abc')}`,
       user_type: 'organization',
       org_id: 4,
