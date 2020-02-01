@@ -34,10 +34,18 @@ function del(id) {
     .del();
 }
 
+function getOrgCampaigns(org_id) {
+  return db('campaigns as c')
+    .join('organizations as o', 'c.org_id', 'o.id')
+    .select('c.*', 'o.name as org_name')
+    .where({ 'o.id': org_id });
+}
+
 module.exports = {
   get,
   getById,
   add,
   update,
   del,
+  getOrgCampaigns,
 };

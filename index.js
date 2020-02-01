@@ -4,6 +4,8 @@ const cors = require('cors');
 
 const authRouter = require('./auth/auth-router');
 const usersRouter = require('./users/users-router');
+const campaignsRouter = require('./campaigns/campaigns-router');
+const organizationsRouter = require('./organizations/organizations-router');
 
 const server = express();
 const host = process.env.HOST || 'localhost';
@@ -15,6 +17,8 @@ server.use(cors());
 
 server.use('/api', authRouter);
 server.use('/api/users', usersRouter);
+server.use('/api/campaigns', campaignsRouter);
+server.use('/api/organizations', organizationsRouter);
 
 server.get('/', (req, res, next) => {
   res.json({
