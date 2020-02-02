@@ -1,3 +1,6 @@
+
+# back-end
+=======
 # Save The Animals v1.0.0
 
 Backend Project for Lambda School's Build Week, deployed Link is https://save-the-animals-app.herokuapp.com/
@@ -160,4 +163,3 @@ No authorization token
   "message": "User not authenticated. Please log in and try again."
 }
 ```
-

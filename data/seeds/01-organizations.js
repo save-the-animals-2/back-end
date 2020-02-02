@@ -10,7 +10,7 @@ exports.seed = async knex => {
       name: 'African Wildlife Foundation',
     },
     {
-      name: 'Wildlife Justice Commission',
+      name: 'Panthera',
     },
   ]);
 };
