@@ -27,8 +27,8 @@ router.get('/:id', authenticate(), async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const user = jwt.decode(token, { complete: true });
-    const { user_type, subject } = user.payload;
-    if (user_type === 'admin' || subject == req.params.id) {
+    const { user_type, user_id } = user.payload;
+    if (user_type === 'admin' || user_id == req.params.id) {
       const user = await usersModel.get(req.params.id);
       return res.json(user);
     } else {

@@ -27,20 +27,31 @@ router.post('/login', validateUser(), async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await usersModel.getBy({ username }).first();
-    const passwordValid = await bcrypt.compare(password, user.password);
-
-    if (user && passwordValid) {
-      const token = signToken(user);
-
-      res.status(200).json({
-        message: 'Logged in',
-        user: user.id,
-        token,
+    if (!user) {
+      res.status(401).json({
+        message: 'Username not found',
       });
     } else {
-      res.status(401).json({
-        message: 'Invalid credentials, please check your username and password',
-      });
+      const passwordValid = await bcrypt.compare(password, user.password);
+
+      if (user && passwordValid) {
+        const token = signToken(user);
+
+        res.status(200).json({
+          message: 'Logged in',
+          user: {
+            id: user.id,
+            username: user.username,
+            user_type: user.user_type,
+            org_id: user.org_id,
+          },
+          token,
+        });
+      } else {
+        res.status(401).json({
+          message: 'Invalid password',
+        });
+      }
     }
   } catch (error) {
     next(error);
@@ -50,7 +61,7 @@ router.post('/login', validateUser(), async (req, res, next) => {
 // this function creates and signs the token
 function signToken(user) {
   const payload = {
-    subject: user.id,
+    user_id: user.id,
     username: user.username,
     user_type: user.user_type,
   };

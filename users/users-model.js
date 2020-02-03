@@ -16,7 +16,7 @@ function get(id) {
 function getBy(filter) {
   return db('users')
     .where(filter)
-    .select('id', 'username', 'password', 'user_type');
+    .select('id', 'username', 'password', 'user_type', 'org_id');
 }
 
 async function add(user) {
