@@ -3,19 +3,27 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const usersModel = require('../users/users-model');
 const secrets = require('../config/secrets');
+const { validateUser } = require('../middleware/validate');
 
 const router = express.Router();
 
 router.post('/register', async (req, res, next) => {
   try {
-    const user = await usersModel.add(req.body);
+    const newUser = {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      user_type: req.body.user_type,
+      org_id: req.body.org_id,
+    };
+    const user = await usersModel.add(newUser);
     res.status(201).json(user);
   } catch (error) {
     next(error);
   }
 });
 
-router.post('/login', validateUser, async (req, res, next) => {
+router.post('/login', validateUser(), async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await usersModel.getBy({ username }).first();
@@ -54,17 +62,6 @@ function signToken(user) {
   };
 
   return jwt.sign(payload, secret, options);
-}
-
-function validateUser(req, res, next) {
-  if (!req.body) {
-    return res.status(400).json({ message: 'Missing user data' });
-  } else if (!req.body.username) {
-    return res.status(400).json({ message: 'Username is required' });
-  } else if (!req.body.password) {
-    return res.status(400).json({ message: 'Password is required' });
-  }
-  next();
 }
 
 module.exports = router;
