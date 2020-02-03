@@ -47,7 +47,7 @@ router.put(
         org_id: req.body.org_id,
       };
       const user = await usersModel.update(req.params.id, newUser);
-      res.status(201).json(user);
+      res.status(200).json(user);
     } catch (err) {
       next(err);
     }
