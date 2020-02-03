@@ -26,8 +26,25 @@ async function add(user) {
   return get(id);
 }
 
+async function update(id, user) {
+  user.password = await bcrypt.hash(user.password, 14);
+  await db('users')
+    .where({ id })
+    .update(user);
+
+  return get(id);
+}
+
+function del(id) {
+  return db('users')
+    .where({ id })
+    .del();
+}
+
 module.exports = {
   get,
   getBy,
   add,
+  update,
+  del,
 };

@@ -32,4 +32,41 @@ router.get('/:id', authenticate(), validateUserId(), async (req, res, next) => {
   }
 });
 
+router.put(
+  '/:id',
+  authenticate(),
+  adminOnly(),
+  validateUserId(),
+  async (req, res, next) => {
+    try {
+      const newUser = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        user_type: req.body.user_type,
+        org_id: req.body.org_id,
+      };
+      const user = await usersModel.update(req.params.id, newUser);
+      res.status(201).json(user);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.delete(
+  '/:id',
+  authenticate(),
+  adminOnly(),
+  validateUserId(),
+  async (req, res, next) => {
+    try {
+      await usersModel.del(req.params.id);
+      res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 module.exports = router;
