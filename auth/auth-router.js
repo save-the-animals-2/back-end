@@ -64,6 +64,7 @@ function signToken(user) {
     user_id: user.id,
     username: user.username,
     user_type: user.user_type,
+    org_id: user.org_id,
   };
 
   const secret = secrets.jwt;
