@@ -1,3 +1,11 @@
+# <<<<<<< HEAD
+
+# back-end
+
+=======
+
+> > > > > > > a49680bfdca544e05c9141f0268685de17708582
+
 # Save The Animals v1.0.0
 
 Backend Project for Lambda School's Build Week, deployed Link is https://save-the-animals-app.herokuapp.com/
@@ -159,6 +167,8 @@ No authorization token
 }
 ```
 
+<<<<<<< HEAD
+
 # Campaigns
 
 ## Return Campaign List
@@ -249,3 +259,7 @@ Returns newly created campaign object
   "org_name": "Fauna and Flora International"
 }
 ```
+
+=======
+
+> > > > > > > a49680bfdca544e05c9141f0268685de17708582
