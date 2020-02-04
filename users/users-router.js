@@ -32,13 +32,12 @@ router.get('/:id', authenticate(), validateUserId(), async (req, res, next) => {
   }
 });
 
-router.put(
-  '/:id',
-  authenticate(),
-  adminOnly(),
-  validateUserId(),
-  async (req, res, next) => {
-    try {
+router.put('/:id', authenticate(), validateUserId(), async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = jwt.decode(token, { complete: true });
+    const { user_type, user_id } = user.payload;
+    if (user_type === 'admin' || user_id == req.params.id) {
       const newUser = {
         username: req.body.username,
         email: req.body.email,
@@ -48,11 +47,15 @@ router.put(
       };
       const user = await usersModel.update(req.params.id, newUser);
       res.status(200).json(user);
-    } catch (err) {
-      next(err);
+    } else {
+      return res.status(401).json({
+        message: 'Access denied.',
+      });
     }
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 router.delete(
   '/:id',
