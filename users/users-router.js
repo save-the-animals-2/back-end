@@ -1,36 +1,27 @@
 const express = require('express');
 const usersModel = require('../users/users-model');
-const authenticate = require('../middleware/authenticate');
+const { authenticate, adminOnly } = require('../middleware/authenticate');
+const { validateUserId } = require('../middleware/validate');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-router.get('/', authenticate(), async (req, res, next) => {
+router.get('/', authenticate(), adminOnly(), async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
-    const user = jwt.decode(token, { complete: true });
-    const { user_type } = user.payload;
-    if (user_type === 'admin') {
-      const users = await usersModel.get();
-      return res.json(users);
-    } else {
-      return res.status(401).json({
-        message: 'Admin access only.',
-      });
-    }
+    const users = await usersModel.get();
+    return res.json(users);
   } catch (err) {
     next(err);
   }
 });
 
-router.get('/:id', authenticate(), async (req, res, next) => {
+router.get('/:id', authenticate(), validateUserId(), async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const user = jwt.decode(token, { complete: true });
-    const { user_type, subject } = user.payload;
-    if (user_type === 'admin' || subject == req.params.id) {
-      const user = await usersModel.get(req.params.id);
-      return res.json(user);
+    const { user_type, user_id } = user.payload;
+    if (user_type === 'admin' || user_id == req.params.id) {
+      return res.json(req.user);
     } else {
       return res.status(401).json({
         message: 'Access denied.',
@@ -40,5 +31,42 @@ router.get('/:id', authenticate(), async (req, res, next) => {
     next(err);
   }
 });
+
+router.put(
+  '/:id',
+  authenticate(),
+  adminOnly(),
+  validateUserId(),
+  async (req, res, next) => {
+    try {
+      const newUser = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        user_type: req.body.user_type,
+        org_id: req.body.org_id,
+      };
+      const user = await usersModel.update(req.params.id, newUser);
+      res.status(200).json(user);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.delete(
+  '/:id',
+  authenticate(),
+  adminOnly(),
+  validateUserId(),
+  async (req, res, next) => {
+    try {
+      await usersModel.del(req.params.id);
+      res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 module.exports = router;

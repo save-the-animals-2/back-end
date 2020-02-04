@@ -6,7 +6,7 @@ beforeEach(async () => {
 });
 
 describe('users model', () => {
-  test('get user', async () => {
+  test('get users', async () => {
     const res = await usersModel.get();
     expect(res).toHaveLength(10);
   });

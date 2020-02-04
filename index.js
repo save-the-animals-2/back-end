@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const logger = require('./middleware/logger');
 
 const authRouter = require('./auth/auth-router');
 const usersRouter = require('./users/users-router');
@@ -14,6 +15,7 @@ const port = process.env.PORT || 4000;
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
+server.use(logger());
 
 server.use('/api', authRouter);
 server.use('/api/users', usersRouter);
