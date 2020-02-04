@@ -21,9 +21,7 @@ function getBy(filter) {
 
 async function add(user) {
   user.password = await bcrypt.hash(user.password, 14);
-  const [id] = await db('users').insert(user);
-
-  return get(id);
+  return db('users').insert(user);
 }
 
 async function update(id, user) {
