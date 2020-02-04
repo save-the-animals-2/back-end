@@ -10,18 +10,17 @@ function getById(id) {
     .first();
 }
 
-async function add(organization) {
-  const [id] = await db('organizations').insert(organization);
-
-  return getById(id);
+function add(organization) {
+  return db('organizations')
+    .insert(organization)
+    .returning('*');
 }
 
-async function update(id, changes) {
-  await db('organizations')
+function update(id, changes) {
+  return db('organizations')
     .where({ id })
-    .update(changes);
-
-  return getById(id);
+    .update(changes)
+    .returning('*');
 }
 
 function del(id) {

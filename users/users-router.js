@@ -38,10 +38,11 @@ router.put('/:id', authenticate(), validateUserId(), async (req, res, next) => {
     const user = jwt.decode(token, { complete: true });
     const { user_type, user_id } = user.payload;
     if (user_type === 'admin' || user_id == req.params.id) {
+      const hash = async password => await bcrypt.hash(password, 14);
       const newUser = {
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password,
+        password: `${await hash(req.body.password)}`,
         user_type: req.body.user_type,
         org_id: req.body.org_id,
       };
