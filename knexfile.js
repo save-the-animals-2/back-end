@@ -25,4 +25,14 @@ module.exports = {
       filename: './data/test.db3',
     },
   },
+  production: {
+    client: 'pg',
+    migrations: {
+      directory: './data/migrations',
+    },
+    seeds: {
+      directory: './data/seeds',
+    },
+    connection: process.end.DATABASE_URL,
+  },
 };
