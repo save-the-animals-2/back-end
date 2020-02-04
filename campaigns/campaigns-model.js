@@ -38,18 +38,17 @@ function getById(campaign_id) {
     .first();
 }
 
-async function add(campaign) {
-  const [id] = await db('campaigns').insert(campaign);
-
-  return getById(id);
+function add(campaign) {
+  return db('campaigns')
+    .insert(campaign)
+    .returning('*');
 }
 
-async function update(id, changes) {
-  await db('campaigns')
+function update(id, changes) {
+  return db('campaigns')
     .where({ id })
-    .update(changes);
-
-  return getById(id);
+    .update(changes)
+    .returning('*');
 }
 
 function del(id) {

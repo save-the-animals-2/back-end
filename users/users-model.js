@@ -1,5 +1,4 @@
 const db = require('../data/config');
-const bcrypt = require('bcryptjs');
 
 function get(id) {
   let query = db('users');
@@ -19,20 +18,17 @@ function getBy(filter) {
     .select('id', 'username', 'password', 'user_type', 'org_id');
 }
 
-async function add(user) {
-  user.password = await bcrypt.hash(user.password, 14);
-  const [id] = await db('users').insert(user);
-
-  return get(id);
+function add(user) {
+  return db('users')
+    .insert(user)
+    .returning('*');
 }
 
-async function update(id, user) {
-  user.password = await bcrypt.hash(user.password, 14);
-  await db('users')
+function update(id, user) {
+  return db('users')
     .where({ id })
-    .update(user);
-
-  return get(id);
+    .update(user)
+    .returning('*');
 }
 
 function del(id) {
