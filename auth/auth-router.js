@@ -17,7 +17,15 @@ router.post('/register', async (req, res, next) => {
       org_id: req.body.org_id,
     };
     const user = await usersModel.add(newUser);
-    res.status(201).json(user);
+
+    // return token
+    const token = signToken(user);
+
+    res.status(201).json({
+      message: `Welcome, ${user.username}`,
+      user,
+      token,
+    });
   } catch (error) {
     next(error);
   }
@@ -38,7 +46,7 @@ router.post('/login', validateUser(), async (req, res, next) => {
         const token = signToken(user);
 
         res.status(200).json({
-          message: 'Logged in',
+          message: `Welcome, ${user.username}`,
           user: {
             id: user.id,
             username: user.username,

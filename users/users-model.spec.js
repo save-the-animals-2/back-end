@@ -34,4 +34,11 @@ describe('users model', () => {
     const users = await db('users');
     expect(users).toHaveLength(11);
   });
+
+  test('delete user', async () => {
+    await usersModel.del(4);
+
+    const users = await db('users');
+    expect(users).toHaveLength(9);
+  });
 });
