@@ -1,6 +1,7 @@
-exports.seed = async knex => {
-  await knex('users_campaigns').del();
-  await knex('campaigns').del();
-  await knex('users').del();
-  await knex('organizations').del();
+const cleaner = require('knex-cleaner');
+exports.seed = function(knex) {
+  return cleaner.clean(knex, {
+    mode: 'truncate',
+    ignoreTables: ['knex_migrations', 'knex_migrations_lock'],
+  });
 };

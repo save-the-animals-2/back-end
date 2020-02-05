@@ -64,10 +64,10 @@ test('PUT /:id - update user by id', async () => {
   expect(res.type).toBe('application/json');
 
   // does it return the expected data?
-  expect(res.body.username).toMatch(/test/i);
-  expect(res.body.email).toMatch(/test@test.biz/i);
-  expect(res.body.user_type).toMatch(/admin/i);
-  expect(res.body.org_id).toBeNull();
+  expect(res.body[0].username).toMatch(/test/i);
+  expect(res.body[0].email).toMatch(/test@test.biz/i);
+  expect(res.body[0].user_type).toMatch(/admin/i);
+  expect(res.body[0].org_id).toBeNull();
 });
 
 test('DELETE /:id - delete user by id', async () => {
