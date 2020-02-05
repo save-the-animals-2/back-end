@@ -9,6 +9,18 @@ Backend Project for Lambda School's Build Week, deployed Link is https://save-th
   - [Return User By Id](#return-user-by-id)
   - [Update User](#update-user)
   - [Delete User](#delete-user)
+- [Campaigns](#campaigns)
+  - [Return Campaign List](#return-campaign-list)
+  - [Return Campaign By Id](#return-campaign-by-id)
+  - [Create New Campaign](#create-new-campaign)
+  - [Update Campaign](#update-campaign)
+  - [Delete Campaign](#delete-campaign)
+- [Organizations](#organizations)
+  - [Return Organization List](#return-organization-list)
+  - [Return Organization By Id](#return-organization-by-id)
+  - [Create New Organization](#create-new-organization)
+  - [Update Organization](#update-organization)
+  - [Delete Organization](#delete-organization)
 
 # Users
 
@@ -299,18 +311,18 @@ Returns full list of campaigns (no token required)
 ```
 
 [
-{
-"id": 1,
-"title": "Conserving migrating raptors in western Georgia",
-"description": "The illegal trapping and sale of birds for falconry, a traditional practice in Georgia, pose a threat to raptor species. It is estimated that 200,000 birds are trapped each year with 5,000 being smuggled out of the country. For some species, birds regarded as low quality are also killed to remove them from populations. The illegal and unsustainable trade in raptors is significantly affecting a number of species including the saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon, which are targeted for falconry. FFI is seeking to address these threats by working closely with falconers’ associations and in cooperation with relevant government agencies to regulate the practice of falconry and to stop illegal international trade in birds of prey.",
-"photo_url": "https://cms.fauna-flora.org/wp-content/uploads/2017/11/conserving-migrating-raptors-in-western-georgia-2000x1200.jpg",
-"location": "Georgia, Eurasia",
-"species": "saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon",
-"urgency_level": 6,
-"funding_goal": 10000,
-"deadline": "06-01-2020",
-"org_id": 1,
-"org_name": "Fauna and Flora International"
+  {
+  "id": 1,
+  "title": "Conserving migrating raptors in western Georgia",
+  "description": "The illegal trapping and sale of birds for falconry, a traditional practice in Georgia, pose a threat to raptor species. It is estimated that 200,000 birds are trapped each year with 5,000 being smuggled out of the country. For some species, birds regarded as low quality are also killed to remove them from populations. The illegal and unsustainable trade in raptors is significantly affecting a number of species including the saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon, which are targeted for falconry. FFI is seeking to address these threats by working closely with falconers’ associations and in cooperation with relevant government agencies to regulate the practice of falconry and to stop illegal international trade in birds of prey.",
+  "photo_url": "https://cms.fauna-flora.org/wp-content/uploads/2017/11/conserving-migrating-raptors-in-western-georgia-2000x1200.jpg",
+  "location": "Georgia, Eurasia",
+  "species": "saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon",
+  "urgency_level": 6,
+  "funding_goal": 10000,
+  "deadline": "2020-06-01T00:00:00.000Z",
+  "org_id": 1,
+  "org_name": "Fauna and Flora International"
 },
 ...
 ]
@@ -323,22 +335,384 @@ Returns full list of campaigns (no token required)
 
 ### Success Response
 
-Returns specified campaign object
+Returns specified campaign object (no token required)
 
 ```
 
 {
-"id": 2,
-"title": "Conserving wild pollinators and increasing food security",
-"description": "As a society we are increasingly dependent on pollinators. The proportion of global agricultural production that depends on pollinators has increased four-fold since 1961. Much of this dependence is linked to wild pollinators. Where there are data on the status of pollinators, national or regional assessments show declines in the abundances of many wild bee and butterfly species, with a third or more facing local extinction. This could represent an unidentified risk – a pollination deficit – within agricultural supply chains. Focusing on the procurement of pollinator-dependent crops, the purpose of this project, which brings together FFI, UNEP-WCMC, the Cambridge Institute for Sustainability Leadership and the University of East Anglia, is to catalyse private sector action to support the conservation of wild pollinator populations. To date we have analysed existing company action on pollination through interviews, surveys and benchmarking, assessed the vulnerability of the top 15 pollinator food crops, strengthened the business case to act and outlined a road map to enable sustainable pollinator management within supply chains.",
-"photo_url": "https://cms.fauna-flora.org/wp-content/uploads/2017/11/conserving-wild-pollinators-and-increasing-food-security-2000x1200.jpg",
-"location": "Worldwide",
-"species": "pollinators",
-"urgency_level": 8,
-"funding_goal": 15000,
-"deadline": "12-31-2020",
-"org_id": 1,
-"org_name": "Fauna and Flora International"
+  "id": 1,
+  "title": "Conserving migrating raptors in western Georgia",
+  "description": "The illegal trapping and sale of birds for falconry, a traditional practice in Georgia, pose a threat to raptor species. It is estimated that 200,000 birds are trapped each year with 5,000 being smuggled out of the country. For some species, birds regarded as low quality are also killed to remove them from populations. The illegal and unsustainable trade in raptors is significantly affecting a number of species including the saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon, which are targeted for falconry. FFI is seeking to address these threats by working closely with falconers’ associations and in cooperation with relevant government agencies to regulate the practice of falconry and to stop illegal international trade in birds of prey.",
+  "photo_url": "https://cms.fauna-flora.org/wp-content/uploads/2017/11/conserving-migrating-raptors-in-western-georgia-2000x1200.jpg",
+  "location": "Georgia, Eurasia",
+  "species": "saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon",
+  "urgency_level": 6,
+  "funding_goal": 10000,
+  "deadline": "2020-06-01T00:00:00.000Z",
+  "org_id": 1,
+  "org_name": "Fauna and Flora International"
 }
 
+```
+
+### Error Response
+
+No campaign with specified id
+
+```
+{
+  "message": "Campaign not found"
+}
+```
+
+## Create New Campaign
+
+    POST /api/campaigns
+
+### Parameters
+
+| Name          | Type    | Description                                                         |
+| ------------- | ------- | ------------------------------------------------------------------- |
+| title         | String  | <p>Title of the campaign _Required_</p>                             |
+| description   | String  | <p>Description of the campaign</p>                                  |
+| photo_url     | String  | <p>Url for the campaign photo</p>                                   |
+| location      | String  | <p>Location of the campaign _Required_</p>                          |
+| species       | String  | <p>Species of the campaign _Required_</p>                           |
+| urgency_level | Integer | <p>Urgency level of the campaign (1 = low, 1 = high) _Required_</p> |
+| funding_goal  | Integer | <p>Funding goal of the campaign</p>                                 |
+| deadline      | Date    | <p>Deadline of the campaign</p>                                     |
+| org_id        | Integer | <p>The org*id of the logged in user \_Auto Populated*</p>           |
+
+### Success Response
+
+Returns new campaign object
+
+```
+
+{
+  "id": 1,
+  "title": "Conserving migrating raptors in western Georgia",
+  "description": "The illegal trapping and sale of birds for falconry, a traditional practice in Georgia, pose a threat to raptor species. It is estimated that 200,000 birds are trapped each year with 5,000 being smuggled out of the country. For some species, birds regarded as low quality are also killed to remove them from populations. The illegal and unsustainable trade in raptors is significantly affecting a number of species including the saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon, which are targeted for falconry. FFI is seeking to address these threats by working closely with falconers’ associations and in cooperation with relevant government agencies to regulate the practice of falconry and to stop illegal international trade in birds of prey.",
+  "photo_url": "https://cms.fauna-flora.org/wp-content/uploads/2017/11/conserving-migrating-raptors-in-western-georgia-2000x1200.jpg",
+  "location": "Georgia, Eurasia",
+  "species": "saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon",
+  "urgency_level": 6,
+  "funding_goal": 10000,
+  "deadline": "2020-06-01T00:00:00.000Z",
+  "org_id": 1
+}
+
+```
+
+### Error Response
+
+No authorization token
+
+```
+{
+  "message": "User not authenticated. Please log in and try again."
+}
+```
+
+User_type is "supporter" or "admin"
+
+```
+{
+  "message": "Access denied."
+}
+```
+
+## Update Campaign
+
+    POST /api/campaigns/:id
+
+### Parameters
+
+| Name          | Type    | Description                                                         |
+| ------------- | ------- | ------------------------------------------------------------------- |
+| title         | String  | <p>Title of the campaign _Required_</p>                             |
+| description   | String  | <p>Description of the campaign</p>                                  |
+| photo_url     | String  | <p>Url for the campaign photo</p>                                   |
+| location      | String  | <p>Location of the campaign _Required_</p>                          |
+| species       | String  | <p>Species of the campaign _Required_</p>                           |
+| urgency_level | Integer | <p>Urgency level of the campaign (1 = low, 1 = high) _Required_</p> |
+| funding_goal  | Integer | <p>Funding goal of the campaign</p>                                 |
+| deadline      | Date    | <p>Deadline of the campaign</p>                                     |
+| org_id        | Integer | <p>The org*id of the logged in user \_Auto Populated*</p>           |
+
+### Success Response
+
+Returns new campaign object
+
+```
+
+{
+  "id": 1,
+  "title": "Conserving migrating raptors in western Georgia",
+  "description": "The illegal trapping and sale of birds for falconry, a traditional practice in Georgia, pose a threat to raptor species. It is estimated that 200,000 birds are trapped each year with 5,000 being smuggled out of the country. For some species, birds regarded as low quality are also killed to remove them from populations. The illegal and unsustainable trade in raptors is significantly affecting a number of species including the saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon, which are targeted for falconry. FFI is seeking to address these threats by working closely with falconers’ associations and in cooperation with relevant government agencies to regulate the practice of falconry and to stop illegal international trade in birds of prey.",
+  "photo_url": "https://cms.fauna-flora.org/wp-content/uploads/2017/11/conserving-migrating-raptors-in-western-georgia-2000x1200.jpg",
+  "location": "Georgia, Eurasia",
+  "species": "saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon",
+  "urgency_level": 6,
+  "funding_goal": 10000,
+  "deadline": "2020-06-01T00:00:00.000Z",
+  "org_id": 1
+}
+
+```
+
+### Error Response
+
+No authorization token
+
+```
+{
+  "message": "User not authenticated. Please log in and try again."
+}
+```
+
+User_type is "supporter" or "admin"
+
+```
+{
+  "message": "Access denied."
+}
+```
+
+No campaign with specified id
+
+```
+{
+  "message": "Campaign not found"
+}
+```
+
+## Delete Campaign
+
+    DELETE /api/campaigns/:id
+
+### Success Response
+
+Returns status 204 (no content)
+
+### Error Response
+
+No authorization token
+
+```
+{
+  "message": "User not authenticated. Please log in and try again."
+}
+```
+
+User_type is "supporter" or "admin"
+
+```
+{
+  "message": "Access denied."
+}
+```
+
+No campaign with specified id
+
+```
+{
+  "message": "Campaign not found"
+}
+```
+
+# Organizations
+
+## Return Organization List
+
+    GET /api/organizations
+
+### Success Response
+
+Returns full list of organizations (no token required)
+
+```
+
+[
+  {
+    "id": 1,
+    "name": "Fauna and Flora International"
+  },
+  {
+    "id": 2,
+    "name": "Australian Wildlife Society"
+  },
+  {
+    "id": 3,
+    "name": "African Wildlife Foundation"
+  },
+  {
+    "id": 4,
+    "name": "Panthera"
+  }
+]
+
+```
+
+## Return Organization By Id
+
+    GET /api/organizations/:id
+
+### Success Response
+
+Returns all campaigns from the specified organization (no token required)
+
+```
+
+[
+  {
+    "id": 1,
+    "title": "Conserving migrating raptors in western Georgia",
+    "description": "The illegal trapping and sale of birds for falconry, a traditional practice in Georgia, pose a threat to raptor species. It is estimated that 200,000 birds are trapped each year with 5,000 being smuggled out of the country. For some species, birds regarded as low quality are also killed to remove them from populations. The illegal and unsustainable trade in raptors is significantly affecting a number of species including the saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon, which are targeted for falconry. FFI is seeking to address these threats by working closely with falconers’ associations and in cooperation with relevant government agencies to regulate the practice of falconry and to stop illegal international trade in birds of prey.",
+    "photo_url": "https://cms.fauna-flora.org/wp-content/uploads/2017/11/conserving-migrating-raptors-in-western-georgia-2000x1200.jpg",
+    "location": "Georgia, Eurasia",
+    "species": "saker falcon, Eurasian sparrowhawk, northern goshawk and peregrine falcon",
+    "urgency_level": 6,
+    "funding_goal": 10000,
+    "deadline": "2020-06-01T00:00:00.000Z",
+    "org_id": 1,
+    "org_name": "Fauna and Flora International"
+  },
+  ...
+]
+
+```
+
+### Error Response
+
+No organization with specified id
+
+```
+{
+  "message": "Organization not found"
+}
+```
+
+## Create New Organization
+
+    POST /api/organizations
+
+### Parameters
+
+| Name | Type   | Description                                 |
+| ---- | ------ | ------------------------------------------- |
+| name | String | <p>Title of the organization _Required_</p> |
+
+### Success Response
+
+Returns new organization object
+
+```
+
+{
+  "id": 1,
+  "name": "Fauna and Flora International"
+}
+
+```
+
+### Error Response
+
+No authorization token
+
+```
+{
+  "message": "User not authenticated. Please log in and try again."
+}
+```
+
+User_type is "supporter" or "organization"
+
+```
+{
+  "message": "Admin access only."
+}
+```
+
+## Update organization
+
+    POST /api/organizations/:id
+
+### Parameters
+
+| Name | Type   | Description                                 |
+| ---- | ------ | ------------------------------------------- |
+| name | String | <p>Title of the organization _Required_</p> |
+
+### Success Response
+
+Returns updated organization object
+
+```
+
+{
+  "id": 1,
+  "name": "Fauna and Flora International"
+}
+
+```
+
+### Error Response
+
+No authorization token
+
+```
+{
+  "message": "User not authenticated. Please log in and try again."
+}
+```
+
+User_type is "supporter" or "organization"
+
+```
+{
+  "message": "Admin access only."
+}
+```
+
+No organization with specified id
+
+```
+{
+  "message": "Organization not found"
+}
+```
+
+## Delete organization
+
+    DELETE /api/organizations/:id
+
+### Success Response
+
+Returns status 204 (no content)
+
+### Error Response
+
+No authorization token
+
+```
+{
+  "message": "User not authenticated. Please log in and try again."
+}
+```
+
+User_type is "supporter" or "organization"
+
+```
+{
+  "message": "Admin access only."
+}
+```
+
+No organization with specified id
+
+```
+{
+  "message": "Organization not found"
+}
 ```
