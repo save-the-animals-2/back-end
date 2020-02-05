@@ -36,9 +36,15 @@ server.use((req, res) => {
 
 server.use((err, req, res, next) => {
   console.log(err);
-  res.status(500).json({
-    message: 'An internal error occurred, please try again later',
-  });
+  if (err.code === '23505') {
+    res.status(500).json({
+      message: err.detail,
+    });
+  } else {
+    res.status(500).json({
+      message: 'An internal error occurred, please try again later',
+    });
+  }
 });
 
 if (!module.parent) {
