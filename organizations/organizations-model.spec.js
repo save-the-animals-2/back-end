@@ -18,7 +18,7 @@ describe('organizations model', () => {
   });
 
   test('add organization', async () => {
-    const res = await organizationsModel.add({
+    const [res] = await organizationsModel.add({
       name: 'test',
     });
     expect(res.id).toBe(5);

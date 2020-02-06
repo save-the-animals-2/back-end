@@ -19,7 +19,7 @@ describe('users model', () => {
   });
 
   test('add user', async () => {
-    const res = await usersModel.add({
+    const [res] = await usersModel.add({
       username: 'test',
       email: 'test@test.com',
       password: 'abc123',

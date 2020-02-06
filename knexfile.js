@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 module.exports = {
   development: {
-    client: 'sqlite3',
+    client: 'pg',
     useNullAsDefault: true,
     migrations: {
       directory: './data/migrations',
@@ -9,11 +11,14 @@ module.exports = {
       directory: './data/seeds',
     },
     connection: {
-      filename: './data/campaigns.db3',
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
     },
   },
   test: {
-    client: 'sqlite3',
+    client: 'pg',
     useNullAsDefault: true,
     migrations: {
       directory: './data/migrations',
@@ -22,7 +27,10 @@ module.exports = {
       directory: './data/seeds',
     },
     connection: {
-      filename: './data/test.db3',
+      host: process.env.DB_HOST,
+      database: process.env.DB_TEST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
     },
   },
   production: {

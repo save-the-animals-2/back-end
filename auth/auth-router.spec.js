@@ -24,13 +24,9 @@ test('POST /register - create new user', async () => {
   expect(res.type).toBe('application/json');
 
   // does it return the expected data?
-  expect(res.body.username).toMatch(/test/i);
-  expect(res.body.email).toMatch(/test@test.biz/i);
-  expect(res.body.user_type).toMatch(/admin/i);
-  expect(res.body.org_id).toBeNull();
-
-  const users = await db('users');
-  expect(users).toHaveLength(11);
+  expect(res.body.user.username).toMatch(/test/i);
+  expect(res.body.user.user_type).toMatch(/admin/i);
+  expect(res.body.user.org_id).toBeNull();
 });
 
 test('POST /login - login user route', async () => {
@@ -49,7 +45,7 @@ test('POST /login - login user route', async () => {
   expect(res.type).toBe('application/json');
 
   // does it return the expected data?
-  expect(res.body.message).toMatch(/logged in/i);
+  expect(res.body.message).toMatch(/welcome, carol/i);
   expect(res.body.user).not.toBeNull();
   expect(res.body.token).not.toBeNull();
 });

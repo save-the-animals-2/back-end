@@ -27,7 +27,7 @@ server.get('/', (req, res, next) => {
     message: 'Welcome to our API',
   });
 });
-
+//
 server.use((req, res) => {
   res.status(404).json({
     message: 'Route was not found',
@@ -36,9 +36,15 @@ server.use((req, res) => {
 
 server.use((err, req, res, next) => {
   console.log(err);
-  res.status(500).json({
-    message: 'An internal error occurred, please try again later',
-  });
+  if (err.code === '23505') {
+    res.status(500).json({
+      message: err.detail,
+    });
+  } else {
+    res.status(500).json({
+      message: 'An internal error occurred, please try again later',
+    });
+  }
 });
 
 if (!module.parent) {
