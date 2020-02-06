@@ -37,10 +37,46 @@ function del(id) {
     .del();
 }
 
+function getFavoriteCampaigns(user_id) {
+  return db('users as u')
+    .join('users_campaigns as uc', 'u.id', 'uc.user_id')
+    .join('campaigns as c', 'c.id', 'uc.campaign_id')
+    .select(
+      'c.id',
+      'c.title',
+      'c.description',
+      'c.photo_url',
+      'c.location',
+      'c.species',
+      'c.urgency_level',
+      'c.funding_goal',
+      'c.deadline',
+      'c.org_id'
+    )
+    .where({ 'u.id': user_id });
+}
+
+function addFavoriteCampaign(campaign) {
+  return db('users_campaigns')
+    .insert(campaign)
+    .returning('*');
+}
+
+function delFavoriteCampaign(user_id, campaign_id) {
+  return db('users_campaigns')
+    .where({ user_id })
+    .where({ campaign_id })
+    .first()
+    .del();
+}
+
 module.exports = {
   get,
   getBy,
   add,
   update,
   del,
+  getFavoriteCampaigns,
+  addFavoriteCampaign,
+  delFavoriteCampaign,
 };

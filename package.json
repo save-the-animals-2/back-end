@@ -33,7 +33,7 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --verbose --watch",
+    "test": "cross-env NODE_ENV=test jest --verbose --watch --runInBand --forceExit",
     "server": "cross-env NODE_ENV=development nodemon -r dotenv/config index.js",
     "start": "node index.js"
   },

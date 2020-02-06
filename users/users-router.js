@@ -74,4 +74,81 @@ router.delete(
   }
 );
 
+router.get(
+  '/:id/favorites',
+  authenticate(),
+  validateUserId(),
+  async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+      const user = jwt.decode(token, { complete: true });
+      const { user_type, user_id } = user.payload;
+      if (user_type === 'supporter' && user_id == req.params.id) {
+        const campaign = await usersModel.getFavoriteCampaigns(req.params.id);
+        req.user.favorite_campaigns = campaign;
+        return res.status(201).json(req.user);
+      } else {
+        return res.status(401).json({
+          message: 'Access denied.',
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.post(
+  '/:id/favorites',
+  authenticate(),
+  validateUserId(),
+  async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+      const user = jwt.decode(token, { complete: true });
+      const { user_type, user_id } = user.payload;
+      if (user_type === 'supporter' && user_id == req.params.id) {
+        const newFavorite = {
+          user_id,
+          campaign_id: req.body.campaign_id,
+        };
+        const campaign = await usersModel.addFavoriteCampaign(newFavorite);
+        return res.status(201).json(campaign);
+      } else {
+        return res.status(401).json({
+          message: 'Access denied.',
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.delete(
+  '/:id/favorites/:campaignId',
+  authenticate(),
+  validateUserId(),
+  async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+      const user = jwt.decode(token, { complete: true });
+      const { user_type, user_id } = user.payload;
+      if (user_type === 'supporter' && user_id == req.params.id) {
+        await usersModel.delFavoriteCampaign(
+          req.params.id,
+          req.params.campaignId
+        );
+        res.status(204).end();
+      } else {
+        return res.status(401).json({
+          message: 'Access denied.',
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 module.exports = router;
